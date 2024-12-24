@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
@@ -50,15 +50,6 @@ export const StickyScroll = ({
     "linear-gradient(to bottom right, var(--pink-500), var(--indigo-500))",
     "linear-gradient(to bottom right, var(--orange-500), var(--yellow-500))",
   ];
-
-  const [backgroundGradient, setBackgroundGradient] = useState(
-    linearGradients[0]
-  );
-
-  useEffect(() => {
-    setBackgroundGradient(linearGradients[activeCard % linearGradients.length]);
-  }, [activeCard]);
-
   return (
     <motion.div
       animate={{
@@ -98,15 +89,17 @@ export const StickyScroll = ({
           <div className="h-40" />
         </div>
       </div>
-      <div
-        style={{ background: backgroundGradient }}
+      <motion.div
+        animate={{
+          background: linearGradients[activeCard % linearGradients.length],
+        }}
         className={cn(
           "hidden lg:block h-60 w-80 rounded-md bg-white sticky top-10 overflow-hidden",
           contentClassName
         )}
       >
         {content[activeCard].content ?? null}
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
